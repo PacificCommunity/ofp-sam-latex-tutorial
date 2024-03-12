@@ -1,0 +1,758 @@
+
+\documentclass[xcolor=dvipsnames]{beamer}
+
+\usetheme{Singapore}
+%\setbeamertemplate{navigation symbols}{}
+
+\usepackage{color, graphicx, tikz, verbatim} % Allows including images
+\usepackage{booktabs} % Allows the use of \toprule, 
+
+\usepackage [english]{babel}
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+%\usecolortheme[RGB={194,91,91}]{structure}
+
+
+\title{\Huge{\textbf{\LaTeX\\ Document Preparation}}}
+\subtitle{}
+\author{\textbf{\large{Tiffany Cunningham}}}
+\institute{\normalsize{MA Division of Marine Fisheries}}
+\date{\normalsize{1 March 2018}}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\section{Intro}
+\subsection{Intro}
+
+\begin{frame}{\LARGE{Objectives}}
+\begin{itemize}
+\large{
+\item Basics of document preparation	
+\begin{itemize}
+\item Create a document!
+\item Explore document layout
+\item Create an equation
+\item Insert a figure \& a table
+\item BibTex and references
+\item Explore formatting and basic markup tools
+\end{itemize}
+\item Merging LaTeX with R
+\begin{itemize}
+	\item Basic example
+	\item Figure and table control
+	\item Code chunk options
+\end{itemize}
+\item Beamer for presentations}
+\begin{center}
+
+\end{center}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\LARGE{What is \LaTeX?}\\ \normalsize{\textit{LAH-TEK} or \textit{LAY-TEK}}}
+A typesetting and cross-referencing program for document preparation, presentations, and complex graphics.\\[.5cm]
+
+\textbf{Typesetting:} the art and process of the design and printing of text. Typesetting consists largely of the following:
+\begin{itemize}
+	\item fitting text and illustrations to a desired page extent
+	\item place text and illustrations effectively and appropriately
+	\item ensure the layout is uniform and predictable 
+	\item produce a final document ready for print.
+\end{itemize}
+To achieve these objectives some considerations include (but are not limited to): font selection; paragraph and character styles; and spacing between characters, lines, and objects. 
+\end{frame}
+
+
+\begin{frame}{\LARGE{History of \LaTeX}}
+\begin{columns}
+\begin{column}{.25\textwidth}
+	\includegraphics[width=2.5cm, height=3cm]{knuth.jpg}\\
+	\includegraphics[width=2.5cm, height=3cm]{lamport.jpg}
+\end{column}
+\begin{column}{.8\textwidth}
+	TeX system developed by Donald Knuth (late 1970s).\\
+	TeX came from the capital letters $\tau$, $\epsilon$, and $\chi$; tex is derived from Greek meaning skill, art, technique.\\[2cm]
+	LaTeX, developed by Leslie Lamport in the 1980s, incorporates TeX with built in macros for easy of use.
+\end{column}
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{\LARGE{Why use \LaTeX ?}\\\Large{Pros and Cons}}
+\begin{columns}[t]
+\begin{column}{.6\textwidth}
+\textbf{\Large{Pros}}
+\begin{enumerate}
+	{\small
+		\item State of the art typesetting 
+		\item Templates often offered by journals, conferences, etc. for formatting ease
+		\item Complete control over the document
+		\item Automation \& cross-referencing
+		\item Ease and aesthetics of mathematical equations
+		\item Bibliography compilation and citations
+		\item ``Large and active user-base with help forums; Free''}
+\end{enumerate}
+\end{column}
+\begin{column}{.5\textwidth}
+\textbf{\Large{Cons}}
+\begin{enumerate}
+	{\small
+		\item Difficult to learn (relative to other programs)
+		\item Not a WSIWG wordprocessor (e.g., Word)
+		\item Difficult when sharing/editing with co-authors}
+\end{enumerate}
+\end{column}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}{\LARGE{Why use \LaTeX?}}
+\centering
+\fbox{\includegraphics[width=8cm, height=7cm]{tex_example.png}}
+\end{frame}
+
+\begin{frame}{\LARGE{Why use \LaTeX?}}
+\centering
+\includegraphics[width=10cm,height=7cm]{worlatex_light.jpg}
+\end{frame}
+
+\begin{frame}{\LARGE{What is \LaTeX?}}
+Markup language - converts source text, combined with the markup, into a lovely document (similar to how web pages work).\\~\\
+\begin{columns}
+\begin{column}{.5\textwidth}
+\% Create a document!\\
+\textbackslash documentclass\{article\}\\
+\textbackslash begin\{document\}\\~\\
+Objective 1 is complete!\\~\\
+\textbackslash end\{document\}
+\end{column}
+\begin{column}{.3\textwidth}
+\fbox{\includegraphics[width=3cm, height=1cm]{obj1.png}}
+\end{column}
+\end{columns}
+\pause
+~\\~\\ \Large{\textbf{Exercise:} Create a simple document.}
+\end{frame}
+
+\begin{frame}{}
+
+\centering
+\includegraphics[scale=.45]{latex_comic.jpg}
+\end{frame}
+
+
+\section{Layout}
+\subsection{Layout}
+
+
+\begin{frame}{\LARGE{Getting Started}}
+LaTeX is a markup language and document preparation system.\\~\\
+\begin{center}
+	\textbf{What \textit{is} markup?}
+\end{center}
+Commands to style and format the document. \\~\\
+New commands can be created and stored in libraries for reuse (similar to R).\\~\\
+Plain text is wrapped within commands, but can be written simply as plain text.
+
+\end{frame}
+
+\begin{frame}{\LARGE{Getting Started}}
+The basic parts of a document: Preamble and/or top matter and the body of the document.\\~\\
+{\color{red}\textbackslash documentclass}\{{\color{OliveGreen}article}\} \\~\\
+
+{\color{ProcessBlue}\textbf\textbackslash begin\{}{\color{blue}document}{\color{ProcessBlue}\}}\\
+Some text\\
+{\color{ProcessBlue}\textbf\textbackslash end\{}{\color{blue}document}{\color{ProcessBlue}\}}\\
+\end{frame}
+
+\begin{frame}{\LARGE{Getting Started}}
+Document classes:
+\begin{itemize}
+\item \textbf{article:} for scientific articles, short reports, program documentation (the general class for docs)
+\item \textbf{proc:} for proceedings based on the article class
+\item \textbf{report:} for longer reports containing several chapters, thesis, etc.
+\item \textbf{book:} for books
+\item \textbf{slides:} presentation slides - uses big sans serif letters
+\item \textbf{memoir:}
+\item \textbf{letter:} for letters
+\item \textbf{beamer:} for presentations
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{\LARGE{Getting Started}}
+Document class \underline{options}: {\color{red}\textbackslash documentclass}[ ]\{{\color{OliveGreen}article}\} \\~\\
+\begin{itemize}
+\item font size
+\item paper size
+\item alignment and numbering placement of equations (e.g., left or right aligned)
+\item column structure
+\item to have a standalone title page
+\item landscape or portrait
+\end{itemize}
+{\color{red}\textbackslash documentclass}[12pt, letterpaper, landscape]\{{\color{OliveGreen}article}\}
+\end{frame}
+
+\begin{frame}{\LARGE{Preamble}}
+Many options! Some basics:
+\begin{itemize}
+\item specify margins {\color{red}\textbackslash usepackage}[ ]\{{\color{OliveGreen}geometry}\}
+\item have document double spaced:\\ {\color{red}\textbackslash usepackage}\{{\color{OliveGreen}setspace}\}\\{\color{red}\textbackslash doublespacing}
+\item create title info:\\
+{\color{red}\textbackslash author}\{\}\\
+{\color{red}\textbackslash title}\{\}\\
+{\color{red}\textbackslash date}\{\}
+\item load packages for use throughout document:\\
+{\color{red}\textbackslash usepackage}[ ]\{{\color{OliveGreen}amsmath, amsfont, color, float, titlesec, ...}\}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\LARGE{Document layout and settings}}
+
+{\color{ProcessBlue}\textbf\textbackslash begin\{}{\color{blue}document}{\color{ProcessBlue}\}}\\~\\
+\textbf{Titles, Chapters, Sections, etc.}
+\begin{itemize}
+\normalsize
+\item \textbackslash maketitle
+\item \textbackslash part\{\dots\}
+\item \textbackslash chapter\{\dots\}
+\item \textbackslash section\{\dots\}
+\item \textbackslash subsection*\{\dots\}
+\end{itemize}
+{\color{ProcessBlue}\textbf\textbackslash end\{}{\color{blue}document}{\color{ProcessBlue}\}}
+\end{frame}
+
+\begin{frame}{Section formatting}
+Some section formatting that I commonly use \textbackslash usepackage\{titlesec\}:\\~\\
+\textbackslash titleformat\{the command\}\{styling of header text\}\{label \}\{spacing before\}\{spacing after\} \\~\\
+
+\textbackslash titleformat\{\textbackslash textbackslash section\}\{\textbackslash normalfont \textbackslash bfseries\}\{\}\{0pt\}\{\}
+\textbackslash titleformat\{\textbackslash subsection\}\{\textbackslash normalfont\textbackslash bfseries\textbackslash itshape\}\{\}\{0pt\}\{\}
+\textbackslash titleformat\{\textbackslash subsubsection\}\{\textbackslash normalfont \textbackslash itshape\}\{\}\{0pt\}\{\}
+
+\end{frame}
+
+\begin{frame}{\LARGE{Document layout and settings}}
+\begin{tabular}{l|l}
+ \textbf{Preamble} & \textbf{Body}\\
+\hline
+ & \\
+\textbackslash documentclass[11pt, fceqn]\{article\} & \textbackslash maketitle\\~\\
+\textbackslash usepackage[left=2cm,\dots]\{geometry\} &  \textbackslash section\{\dots\}\\~\\
+\textbackslash title\{\dots\} \textbackslash author\{\dots\}  & \textbackslash subsection\{\dots\}\\
+\hline
+\end{tabular}
+~\\[1.5cm]\Large{\textbf{Exercise:} Customize a document with above settings.}
+\end{frame}
+
+
+\begin{frame}{\LARGE{Characters, symbols, and spacing}}
+\textbf{Special characters:} \# \$ \% \^{} \& \_ \{ \} \~{} \textbackslash ~\\
+\hspace{.5cm} These can all be used if preceded by a \textbackslash \hspace{.2cm}  (e.g., \textbackslash \# or \textbackslash \{ \textbackslash\} ) ~\\~\\
+\textbf{Symbols:} command for just about any symbol, all begin with  \textbackslash followed by the command name (e.g., $\cup$ \textbackslash cup, $^{\circ}$ \^{} \{circ\}, $\triangledown$ \textbackslash triangledown, etc.)~\\~\\
+
+\textbf{Spaces:} \textbackslash\textbackslash \hspace{.5mm} is a carriage return, \textbackslash hspace\{1cm\}, \textbackslash vspace\{2in\}, \textbackslash indent, skipped line indicates a new \textparagraph, $\sim$ \textbackslash \textbackslash is a forced carriage return ~, \textbackslash clearpage starts at the top of a new page\\
+
+\end{frame}
+
+\begin{frame}{\LARGE{Characters, symbols, and spacing}}
+\centering
+\includegraphics[scale=.4]{comic.png}
+\end{frame}
+
+
+
+\section{Equations}
+\subsection{Equations}
+
+\begin{frame}{\LARGE{Equations and Math Mode}}
+\textbf{\Large{Equations}}\\~\\
+
+\begin{equation}
+CI = \bar{x} \pm z_{\alpha/2}*\biggl(\dfrac{s}{\sqrt{n}}\biggr) = 0.6 \pm 1.65 * \biggl(\dfrac{0.230}{\sqrt{14}}\biggr) = \textbf{[0.4 - 0.8]}
+\end{equation}
+\textbackslash begin\{equation\}\\~\\
+CI = \textbackslash bar\{x\} \textbackslash pm z\_\{\textbackslash alpha/2\}*\textbackslash biggl(\textbackslash dfrac\{s\}\{\textbackslash sqrt\{n\}\}\textbackslash biggr) = 0.6 \textbackslash pm 1.65 * \textbackslash biggl(\textbackslash dfrac\{0.230\}\{\textbackslash sqrt\{14\}\}\textbackslash biggr) = \textbackslash textbf\{[0.4 - 0.8]\}\\~\\
+\textbackslash end\{equation\}
+\end{frame}
+
+\begin{frame}{\LARGE{Equations and Math Mode}}
+\textbf{\Large{Math mode}}\\~\\
+\[ \hat{Y_{i}} = \hat{\beta_{0}} + \hat{\beta_{1}}X_{i} + \epsilon_{i} \]~\\~\\
+
+\textbackslash[ \textbackslash hat\{Y\_\{i\}\} = \textbackslash hat\{\textbackslash beta\_\{0\}\} + \textbackslash hat\{\textbackslash beta\_\{1\}\} X\-\{1\} \textbackslash] \\~\\
+
+\Large{Note: no numbering of equations}
+\end{frame}
+
+\begin{frame}{\LARGE{Equations and Math Mode}}
+\Large{\textbf{Exercise:} Create the following equations using the equation markup for one and general math mode for the other, inside the document you've already created.}
+\begin{equation}
+N\beta_{0} = \sum\limits_{i=1}^{N}y_{i} -\beta_{1}\sum\limits_{i=1}^{N}x_{i}
+\end{equation}~\\
+$$var(\bar{Y}) = \dfrac{\gamma_{0}}{n}[1+2 \sum\limits_{k=1}^{n-1} (1-\dfrac{k}{n}) \rho_{k}]$$
+\end{frame}
+
+\section{Tables \& Figures}
+\subsection{Tables \& Figures}
+
+\begin{frame}{\LARGE{Tables \& Figures}}
+\begin{itemize}
+\item Tables \& Figures are automatically numbered in \LaTeX
+\item Tables can be exported directly from R into \LaTeX, or created within the document itself
+\item Figures are imported from a file path name
+\item If the source file is updated, it is automatically updated in the document when compiled
+\item Both tables and figures can be `labeled' to be cross-referenced in the document
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{\LARGE{Table and Figure environment}}
+\begin{verbatim}
+\usepackage{graphix, float}
+\end{verbatim}
+Tables and figures are created in the \textit{floating} environment for ease of placement. Pagebreaks aren't allowed within this environment - so LaTeX decides where the image is best suited. You can suppress this, however.\\~\\
+\underline{Placements:} \textbf{[t]}: top; \textbf{[b]}: bottom; \textbf{[p]}: put on a separate page without text, only with other figures, tables, and floats; \textbf{[h]}: put the float approximately at the current position; \textbf{[H]} put the float at the current position 
+\end{frame}
+
+\begin{frame}{\LARGE{Tables - \LaTeX creation}}
+  
+\textbackslash begin\{table\}[H]    
+    \textbackslash begin\{center\}
+  		 \textbackslash begin\{tabular\}\{c$\vert$ l$\vert$ r\} 
+  		 
+  Centered \& Left \& Right \textbackslash \textbackslash ~\\
+  \textbackslash hline ~\\
+	A  \& B \& C \textbackslash \textbackslash ~\\
+	\textbackslash hline ~\\
+	 1 \& 2 \& 3 ~\\
+	\textbackslash hline ~\\
+  \textbackslash end\{tabular\}
+   		\textbackslash end\{center\}
+			\textbackslash end\{table\} 
+  
+    
+\begin{table}[H]    
+    \begin{center}
+  		\begin{tabular}{c|l|r}
+  Centered & Left & Right \\
+  \hline
+	A  & B & C \\
+	\hline
+	 1 & 2 & 3\\
+	\hline
+  \end{tabular}
+   		\end{center}
+			\end{table}
+
+\end{frame}
+
+
+\begin{frame}{\LARGE{Tables - merging cells}}
+
+\begin{table}[H]
+	\begin{tabular}{c|llll|cc}
+	\hline
+	\textbf{Rank} &	\multicolumn{4}{c|}{\textbf{Fixed Effects}} & \multicolumn{2}{c}{\textbf{Random Effects}}\\
+	\hline
+	& Y & M & V & T & Trip & Day \\
+	\hline\hline
+	1 & x & x & x & x & 3038.5 & 0\\
+	2 & x & x & x & x &  3038.7 & 0.2\\
+	3 & x & x & x & x & 3041.1 & 2.6\\
+	4 & x & x & x & x & 3044.0 & 5.5\\
+	5 & x & x & x & x  & 3048.5 & 10\\
+	6 & x & x & x & x  & 3052.2 & 13.7\\
+	7 & x & x & x & x  & 3053.1 & 14.6\\
+	8 & x & x & x & x  & 3061.4 & 22.9\\
+		\hline
+\end{tabular} 
+\caption{Some table caption.}
+\end{table}
+\end{frame}
+
+\begin{frame}{Tables - merging cells}
+This can be done using the \textbackslash multicolumn command.\\~\\
+\textbackslash multicolumn\{number of columns to merge\}\{alignment and vertical bars\}\{Label/Text\}\\~\\
+For examples, instead of just separating your column values with an \&, you specify the following\\~\\
+\textbackslash textbf\{Rank\} \& \textbackslash multicolumn\{4\}\{c\}\{ \textbackslash textbf\{Fixed Effects\}\} \& \textbackslash multicolumn\{2\}\{c\}\{ \textbackslash textbf\{Random Effects\}\}\textbackslash \textbackslash \\~\\
+
+NOTE: the number of columns must add up to the number defined for your table. In this example, 7 are specified. The line following this command will revert back to the table defaults.
+\end{frame}
+
+
+\begin{frame}{Tables - merging cells}
+
+{\Large \textbf{Exercise:} Refer back to the table we previously made. Try to merge the header row into one single cell, with a new label.}\\
+\hrulefill ~\\~\\
+\begin{table}[H]    
+	\begin{center}
+		\begin{tabular}{c|l|r}
+			\multicolumn{3}{c}{Merged cells} \\
+			\hline
+			A  & B & C \\
+			\hline
+			1 & 2 & 3\\
+			\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+\end{frame}
+
+\begin{frame}{\LARGE{Tables - Export from R}}
+In R:\\~\\
+
+library(xtable)\\~\\
+
+tab=xtable(tab1, caption= `Correlation matrix', 
+align=c(`c',$\vert$ `c',$\vert$ `c',), digits=3) \\~\\
+
+print(tab,file=``MyTexFile.tex'',append=T,table.placement = ``H'', caption.placement=``top'',hline.after=seq(from=-1, to=nrow(tab), by=1), include.rownames=F) 
+
+\end{frame}
+
+\begin{frame}{\LARGE{Tables - Export from R}}
+
+{\Large \textbf{Exercise:} Attempt to create a table in R, and export into the document you are working on.}\\
+\hrulefill ~\\~\\
+
+Simple R table creation:\\~\\
+
+df $<$- data.frame("Year"=seq(2010,2017), "Site"=LETTERS[1:8], "Value"=rnorm(8,5,2) )
+
+\end{frame}
+
+\begin{frame}{\LARGE{Figures - Importing}}
+ \textbackslash begin\{figure\}[H]\\~\\
+ \textbackslash includegraphics[width=8cm, height=6cm]\{Barplot.pdf\}\\~\\
+ 
+ 
+     \textbackslash caption\{A barplot \dots\}~\\
+            \textbackslash label\{fig:barplot\}~\\
+         \textbackslash end\{figure\} ~\\
+         
+\end{frame}         
+
+\begin{frame}{\LARGE{Figures}}
+\Large{\textbf{Exercise:} Insert one or more figures into your document.}\\
+\hrulefill ~\\~\\
+
+\normalsize
+
+ \textbackslash begin\{figure\}[H]\\
+ \textbackslash includegraphics[width=8cm, height=6cm]\{Barplot.pdf\}\\
+     \textbackslash caption\{A barplot \dots\}~\\
+            \textbackslash label\{fig:barplot\}~\\
+         \textbackslash end\{figure\} ~\\
+
+\end{frame}
+
+\begin{frame}[fragile]{Aligning multiple figures}
+Controlling placement - can be done when creating figures (e.g., in R) or aligning them in LaTeX. \textbf{Columns} are one way to do it in LaTeX.
+
+\begin{verbatim}
+\begin{columns}
+\begin{column}{.5\textwidth}
+\includegraphics[width=3cm, height=3.5cm]{FigA.png}
+\end{column}
+\begin{column}{.5\textwidth}
+\includegraphics[width=3cm, height=3.5cm]{FigB.png}
+\end{column}
+\end{columns}
+\end{verbatim} 
+
+\end{frame}
+
+\begin{frame}[fragile]{Multiple figures}
+
+{\small
+\begin{verbatim}
+\begin{figure}[H]
+	\flushleft
+	\subfloat{}
+	{\includegraphics[width=.3\textwidth, height=5cm]{FigA.png}}
+	\subfloat{}
+	{\includegraphics[width=.3\textwidth, height=5cm]{FigB.png}}
+	\subfloat{}
+	{\includegraphics[width=.3\textwidth, height=5cm]{FigC.png}}
+	\subfloat{}
+	{\includegraphics[width=.3\textwidth, height=5cm]{FigD.png}}
+	\subfloat{}
+	{\includegraphics[width=.3\textwidth, height=5cm]{FigE.png}}
+	\subfloat{}
+	{\includegraphics[width=.3\textwidth, height=5cm]{FigF.png}}
+	\caption{A series of plots.} 
+	\label{fig:series}
+\end{figure}
+\end{verbatim}
+}
+\end{frame}
+
+\begin{frame}{\LARGE{Tables \& Figures}}
+
+{\Large Referencing tables and figures within the text}
+
+ \textbackslash begin\{figure\}[H]\\~\\
+ \textbackslash includegraphics[width=8cm, height=6cm]\{Barplot.pdf\}\\~\\
+ 
+ 
+     \textbackslash caption\{A barplot \dots\}~\\
+            \textbackslash label\{fig:barplot\}~\\
+         \textbackslash end\{figure\} ~\\~\\
+
+The results of this study are shown in Figure \textbackslash ref\{fig:barplot\}.\\~\\
+
+What appears is:\\
+The results of this study are shown in Figure 1.
+\end{frame}
+
+\begin{frame}{\LARGE{Cross-referencing}}
+
+{\Large \textbf{Exercise:} Reference a table and figure in your document within the text, using cross-referencing.}\\
+\hrulefill ~\\
+
+\end{frame}
+
+\begin{frame}{\LARGE{Objectives}}
+\begin{itemize}
+\Large{
+\item Create a document! \checkmark
+\item Explore document layout \checkmark
+\item Create an equation \checkmark
+\item Insert a figure \& a table \checkmark
+\item BibTex and References
+\item Explore formatting and basic markup tools
+\item Sweave
+\item Beamer}
+\begin{center}
+
+\end{center}
+\end{itemize}
+\end{frame}
+
+\section{BibTex}
+\subsection{BibTex}
+
+\begin{frame}{\LARGE{BibTex and References}}
+\begin{itemize}
+\Large{
+\item Maintain a list of references (text editor or Mendeley?)
+\item Export references as .BibTex format (i.e., .bib file)
+\item Configure LaTeX for BibTex (should be a one time thing)
+\item Cite references in .tex file using label (from .bib file)
+\item Reference .bib in LaTeX file}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{\LARGE{BibTex and References}}
+\begin{center}
+ \includegraphics[width=8cm, height=6cm]{BibTex.png}
+ \end{center}
+\end{frame}
+
+\begin{frame}{\LARGE{BibTex and References}}
+
+\ldots Identification of reliable indicators (i.e., quantifiable metrics responsive to change) of ecosystem dynamics as they relate to the state space \textbackslash citep\{walker\_2004\} is an important area of research because the transition to a new basin of attraction may represent a unidirectional shift into an alternate, long-term stable state, a condition commonly referred to as a regime shift \textbackslash citep\{may\_1977, lluch\_belda\_1989, scheffer\_2001, kuehn\_2011, drake\_2013\}.\\~\\ 
+
+\textbackslash bibliographystyle\{ecology\}\\
+\textbackslash bibliography\{oneida\}
+\end{frame}
+
+
+\begin{frame}{\LARGE{BibTex and References}}
+There are different reference packages. I use natbib most often. Below are some customizations allowed with that package. You might want to explore some other packages, depending on your preferences.\\~\\
+
+\textbackslash documentclass[article]\\
+\textbackslash usepackage[round]\{natbib\}\\~\\
+\textbackslash begin\{document\}\\~\\
+...\\
+\textbackslash bibliographystyle\{apalike\}\\
+\textbackslash bibliography\{References\}\\
+
+\textbackslash end\{document\}
+\end{frame}
+
+\begin{frame}{\LARGE{BibTex and References}}
+Some options:\\
+\textbackslash usepackage[square,numbers]{natbib}\\
+\textbackslash usepackage[super]{natbib}\\
+\textbackslash usepackage[curly,numbers, super]{natbib}\\~\\
+
+\textbackslash bibliographystyle\{plain\}\\
+\textbackslash bibliographystyle\{unsrt\}\\
+\end{frame}
+
+\begin{frame}{\LARGE{Inline citations}}
+some text \textbackslash cite\{maunder2004standardizing\}. = some text Maunder (2004).\\
+some text \textbackslash citep\{maunder2004standardizing\}.  = some text (Maunder, 2004).\\
+some text \textbackslash citealp\{maunder2004standardizing\}.  = some text Maunder, 2004.\\
+some text \textbackslash citealt\{maunder2004standardizing\}.  = some text Maunder 2004.\\
+some text \textbackslash citeauthor\{maunder2004standardizing\}.  = some text Maunder.\\
+some text \textbackslash citeyear\{maunder2004standardizing\}.  = some text 2004.\\
+
+\end{frame}
+
+
+\section{Misc Markup}
+\subsection{Misc Markup}
+
+\begin{frame}{\LARGE{Text formatting}}
+Hot keys used in Word sometimes work!\\
+Ctrl B for \textbf{bold} creates: \textbackslash textbf\{\}\\
+Ctrl I for \textit{italics} creates: \textbackslash textit\{\}\\~\\
+
+Font sizing: \textbackslash LARGE \{ \Large{LARGE} \normalsize \}\\
+E.g., \textbackslash footnotesize, \textbackslash small, \textbackslash normalsize, \textbackslash Large, \textbackslash Huge \\~\\
+
+Font color: \textbackslash textcolor\{blue\}\{\} \textcolor{blue}{Blue Text}
+\end{frame}
+
+\begin{frame}{\LARGE{Lists}}
+
+\textbackslash begin \{itemize\}\\
+
+
+\begin{itemize}
+\item \textbackslash item A regular item
+\item[$\blacktriangleright$] \textbackslash item[\$\textbackslash blacktriangleright\$] A fancy item
+\end{itemize}
+\textbackslash end \{itemize\}~\\~\\
+
+\textbackslash begin \{enumerate\}\\
+\begin{enumerate}
+\item \textbackslash item One item
+\item \textbackslash item Two items
+\end{enumerate}
+\textbackslash end \{enumerate\}
+\end{frame}
+
+\begin{frame}{\LARGE{Misc Markup}}
+\Large{\textbf{Exercise:} Create lists, and nested lists with special text formatting.}\\
+\hrulefill ~\\
+\normalsize
+\textbackslash begin \{itemize\}\\
+\begin{itemize}
+\item \textbackslash item A regular item
+\item[$\blacktriangleright$] \textbackslash item[\$\textbackslash blacktriangleright\$] A fancy item
+\end{itemize}
+\textbackslash end \{itemize\}~\\~\\
+
+Font sizing: \textbackslash LARGE \{ \Large{LARGE} \normalsize \}\\
+E.g., \textbackslash footnotesize, \textbackslash small, \textbackslash normalsize, \textbackslash Large, \textbackslash Huge \\~\\
+
+Font color: \textbackslash textcolor\{blue\}\{\} \textcolor{blue}{Blue Text}
+\end{frame}
+
+
+
+\begin{frame}{\LARGE{Packages \& Google}}
+\begin{itemize}
+\item Just like R, there are many tools for \LaTeX that can be found in specific packages.
+\item Usually I find this out from Google searches
+\item But, it \textit{usually} doesn't hurt to include several packages in a template
+\item Errors can sometimes be cryptic...
+\item You can create new commands - similar to creating functions in R \textbackslash newcommand\{ \dots\}
+\item Some packages I frequently use: \textbackslash usepackage\{amsmath, amssymb, amsfonts, cite, amsthm, mathtools, color, float, lineno, subfig, enumitem, verbatim, framed, textcmds, libertine\}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{\LARGE{References}}
+Some potentially useful references:\\~\\
+All things \LaTeX: 
+\textcolor{blue}{http://en.wikibooks.org/wiki/LaTeX}~\\~\\ 
+
+
+Document class options: \textcolor{blue}{http://www.nada.kth.se/$\sim$carsten/latex/class.html}~\\~\\
+
+Symbols: 
+\textcolor{blue}{http://www.andy-roberts.net/res/writing/latex/symbols.pdf}
+\end{frame}
+
+\section{knitr}
+\subsection{knitr}
+
+\begin{frame}{knitr/Sweave}
+\begin{center}
+\includegraphics[scale=0.4]{knit.png}
+\end{center}
+\end{frame}
+
+\section{Beamer}
+\subsection{Beamer}
+
+\begin{frame}[fragile]{Beamer}
+\begin{verbatim}
+
+\documentclass[xcolor=dvipsnames]{beamer}
+
+\usetheme{Singapore}
+\usepackage{color, graphicx, tikz, verbatim} 
+
+\title{\Huge{\textbf{\LaTeX\\ Document Preparation}}}
+\author{\textbf{\large{Tiffany Cunningham}}}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+%end{frame}
+
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Beamer customization}
+There are several standard themes that you can easily call to modify the appearance of your presentations. Here are a few:\\
+\begin{verbatim}
+http://deic.uab.es/~iblanes/beamer_gallery/
+\end{verbatim}
+Some themes:
+\begin{itemize}
+	\item Bergen
+	\item boxes
+	\item Dresden
+	\item Malmoe
+\end{itemize}
+Some color themes:
+\begin{itemize}
+	\item albatross
+	\item crane
+	\item lily
+\end{itemize}	
+\end{frame}
+
+\begin{frame}[fragile]{Beamer customization}
+\begin{verbatim}
+\usetheme{Singapore}
+\usecolortheme{lily}
+
+# Or define your own color scheme
+%\usecolortheme[RGB={194,91,91}]{structure}
+
+# Remove navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+\end{verbatim}
+\end{frame}
+
+
+\begin{frame}{Beamer customization}
+There is really endless customization you can do. If you like animation... you might be stuck with PowerPoint, otherwise, this might offer a nice alternative. \\~\\
+
+Can also make posters... I'll leave it here. The basics are pretty straightforward. Google will help you with the rest.
+\end{frame}
+
+\section{Wrap Up}
+\subsection{Wrap Up}
+\begin{frame}
+\includegraphics[scale=0.35]{end.jpg}
+\end{frame}
+
+\end{document}
