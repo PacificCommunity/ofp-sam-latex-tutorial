@@ -1,0 +1,28 @@
+\documentclass{article}
+\begin{document}
+
+\begin{table}
+  \begin{tabular}{ll}
+    English & French\\
+    One     & Un    \\
+    Two     & Deux  \\
+  \end{tabular}
+\end{table}
+
+\begin{table}[t]
+  \centering
+  \caption{\label{tab:grid_desc} Structural uncertainty grid for the 2023 WCPO yellowfin tuna stock assessment. Bold values indicate settings for the diagnostic model.}
+  \small
+  \begin{tabular}{lllll}
+    \hline
+    Axis                        & Levels & Option 1 & Option 2      & Option 3\\
+    \hline
+    Steepness                   & 3      & 0.65     & \textbf{0.8}  & 0.95    \\
+    Tag mixing (\# quarters)    & 2      & 1        & \textbf{2}    &         \\
+    Size data weighting divisor & 3      & 10       & \textbf{20}   & 40      \\
+    Age data weighting          & 3      & 0.5      & \textbf{0.75} & 1       \\
+    \hline
+  \end{tabular}
+\end{table}
+
+\end{document}
