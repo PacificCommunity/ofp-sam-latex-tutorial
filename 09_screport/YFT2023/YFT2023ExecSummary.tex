@@ -1,0 +1,49 @@
+% -*- TeX-master: "YFT2023.tex"; eval: (longlines-mode); fill-column: 100000 -*-
+
+\section{Executive Summary}
+
+This paper describes the 2023 stock assessment of yellowfin tuna (\emph{Thunnus albacares}) in the western and central Pacific Ocean. An additional three years of data were available since the previous assessment in 2020, and the model extends through to the end of 2021. The assessment moved to a new 5 region spatial structure with improved convergence properties and which achieved a positive definite Hessian solution, which was a requirement for future assessments from SC18. This change was made during the stepwise model development process. The 5 region model, given its superior convergence properties to the original 9 region model, is used as the basis for the structural uncertainty grid and stock status conclusions. Additional new developments to the stock assessment, many of which have emanated from the independent peer review of the 2020 yellowfin assessment, include:
+
+\begin{itemize}
+  \item Conversion from a catch-errors to a catch-conditioned approach, and the inclusion of a likelihood component for the CPUE from the index fisheries.
+  \item Change from using VAST to sdmTMB to standardise the input CPUE series and the inclusion of additional covariates in the CPUE model.
+  \item Different CPUE variances used for the CPUE associated with each index fishery, applying a new approach to estimate these variances.
+  \item Internal estimation of natural mortality and application of the Lorenzen form of natural mortality at age.
+  \item Additional procedures implemented for achieving more reliable model convergence, including jittering and checking positive definite Hessian status for all grid models.
+  \item Integration of parameter estimation uncertainty with model-based uncertainty across the model grid for the key management reference points.
+  \item Additional size composition filtering.
+  \item Modifications to selectivity estimation settings, changes to fisheries with non-decreasing selectivity.
+  \item Adoption of revised tagger effect modelling framework, reverting to assumptions similar to those used in 2017.
+  \item Changes to size data weighting and downweighting the conditional age-at-length data for internal growth estimation.
+\end{itemize}
+
+This assessment is supported by the analysis of catch and effort data for longline fisheries to provide regional abundance indices \citep{teears_cpue_2023}, revised analysis of tagger effects and tag reporting rates \citep{peatman_analysis_2023-1,peatman_analysis_2023-2}, size composition data analyses and preparation \citep{peatman_analysis_2023}, improvements to data for length-weight conversion factors \citep{macdonald_project_2023}, review and analyses to inform considerations of alternative spatial structures, and developments to the MFCL software \citep{davies_developments_2023}.
+
+This assessment implemented a more rigorous approach to achieve more reliable and stable model convergence, which was beneficial for achieving a positive definite Hessian for the 2023 diagnostic model. The cumulative effects of the stepwise changes between the 2020 diagnostic model and the current diagnostic model is a reduction of \sbsbfo. The difference between the 2020 diagnostic model and the current diagnostic model is considerable in terms of \sbsbfo but much smaller in terms of \sb. Therefore, it appears that the main difference between the two diagnostic models is the estimate of higher (\sbfo) by the 2023 diagnostic model. This difference appeared to occur mainly in the step that introduced the estimation of Lorenzen natural mortality, although the change in spatial structure and application of the revised approach to modelling tagger effects further contributed to the reduction of \sbsbfo. The move away from the more complicated externally calculated natural mortality at age function used previously to estimating natural mortality internally with a Lorenzen functional form followed recommendations from various reviews on stock assessment methods, and was supported by a recent tuna stock assessment good practices workshop. Subject to the caveat that none of the steps in the stepwise development involved jittering, in terms of decreasing the final value of \sbsbfo the most influential steps in the development of the 2023 diagnostic model were; the estimation of natural mortality using the Lorenzen curve, applying the revised tagger effects method (which was also a recommendation for an expert workshop and supported by the Pre-assessment Workshop), and updating the CPUE spatio-temporal analysis. Finally, the 2020 yellowfin stock assessment estimated the median \sbrsbfo across the model grid to be 0.58, where `recent' was the period 2015-2018. Calculating the equivalent median depletion from the 2023 stock assessment grid, $\mathit{SB}_{2015-2018}$/\sbfo is 0.47. Overall the changes in assessment methods and the updated data produced a less optimistic estimation of stock status than the 2020 assessment.
+
+In addition to the diagnostic model, we report the results of one-off sensitivity models to explore the impact of key data and model assumptions for the diagnostic model on the stock assessment results and conclusions. We also undertook a structural uncertainty analysis (model grid with 54 models) for consideration in developing management advice that includes combinations of those areas of uncertainty considered important. Finally, we have also estimated the parameter (estimation) uncertainty for the key management reference points \sbrsbfo and \fref which is combined with the structural uncertainty to provide the final uncertainty for these management quantities. The ability to include estimation uncertainty on top of structural uncertainty for the key management quantities, \sbrsbfo and \fref, is an improvement from previous assessments, however, in this case its inclusion did not influence the management advice. It is, however, recommended that management advice is formulated from the results of the structural uncertainty grid with the estimation uncertainty included for \sbrsbfo and \fref. The results below are based on equal weighting of all grid models.
+
+Across the 54 models of the structural uncertainty grid run in this assessment, the most important factors when evaluating stock status were the steepness of the stock recruitment relationship, weighting of the size composition data, and tag mixing period. Unlike the previous assessment, growth was not included as an uncertainty axis, which was partly due to the recommendation of the peer review of the 2020 yellowfin assessment that external growth curves would likely be biased due to the way in which otoliths were selected for developing the growth curves.
+
+The general conclusions of this assessment are as follows:
+
+\begin{itemize}
+  \item The spawning potential of the stock has become more depleted across all model regions until around 2010, after which it has become more stable, or shown a slight increase.
+  \item Average fishing mortality rates for juvenile and adult age-classes have increased throughout the period of the assessment, although more so for juveniles which have experienced considerably higher fishing mortality than adults. In the recent period a sharp increase in juvenile fishing mortality is estimated, while adult fishing mortality has stabilised.
+  \item Overall, median depletion from the model grid for the recent period (2018--2021; \sbrsbfo) is estimated at 0.47 (80 percentile range including estimation and structural uncertainty 0.42--0.52, full range 0.33--0.60)
+  \item No models from the uncertainty grid, including estimation uncertainty, estimate the stock to be below the LRP of \lrp.
+  \item CMM 2021-01 contains an objective to maintain the spawning biomass depletion ratio above the average of 2012--2015, $\mathit{SB}_{2012-2015}$/\sbfo, which is a value of 0.44 calculated across the unweighted grid. Based upon the estimates of \sbrsbfo of 0.47, this objective has currently been met.
+  \item Recent (2017--2020) median fishing mortality (\fref) was 0.50 (80 percentile range, including estimation and structural uncertainty 0.41--0.62, full range 0.26--0.78).
+  \item Assessment results suggest that the yellowfin stock in the WCPO is not overfished, nor undergoing overfishing.
+\end{itemize}
+
+A number of key research needs have been identified in undertaking this assessment that should be investigated either internally or through directed research. These include:
+
+\begin{enumerate}
+  \item Continued work examining appropriate approaches for modeling natural mortality for the WCPO yellowfin assessment.
+  \item Further simplifying the assessment by combining fisheries within regions.
+  \item Evaluation of growth parameter settings.
+  \item Improved sampling of biological data across the WCPO region for yellowfin.
+  \item Succession planning for MFCL.
+  \item Tropical focused model investigation.
+\end{enumerate}

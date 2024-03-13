@@ -1,0 +1,117 @@
+% -*- TeX-master: "YFT2023.tex"; eval: (longlines-mode); fill-column: 100000 -*-
+
+\section{Model runs}
+
+\subsection{Developments from the last assessment}
+\label{sec:stepwise}
+
+The progression of the model development (referred to as the `stepwise') from the 2020 diagnostic model to the 2023 diagnostic model is described here. Most steps in the stepwise model development process were implemented using the data inputs from the 2020 assessment, before the new 2023 data had been fully processed and made available. The final input files were ready a few weeks before the SC meeting, with just enough time to adapt the latest development model to the new data and make decisions on the final structural changes to the diagnostic model.
+
+\subsubsection{Stepwise model development}
+
+The major changes incorporated at each step in the diagnostic model development are summarised below, including the model names used in the figures describing the steps. Each model builds from the previous step, retaining all previous changes. Some steps combine a major change with one or more minor changes, especially those that result in negligible changes in model outcomes. The model names describe an important feature or structural change introduced in that step.
+
+\begin{enumerate}
+
+  \item \textbf{Diag2020}. The 2020 yellowfin diagnostic model, using data from 2020.
+
+  \item \textbf{NewExe}. The MULTIFAN-CL (MFCL) executable was updated from version 2.0.7.0 (from 17 January 2020) to version 2.2.0.0 (30 June 2023), accumulating three years of software development, including features that were used in this assessment. Later patches of MFCL 2.2.\emph{x}.0 were released during the stepwise model development period, introducing new features while retaining compatibility with 2.2.0.0. The full backward compatibility meant that it was not necessary to rerun the entire stepwise sequence of models each time a new MFCL patch was released.
+
+  \item \textbf{PreCatchCond}. A set of four changes were applied to the model structure to aid the transition to a catch-conditioned model, and to ensure stable model behaviour:
+  \begin{enumerate}
+    \item A penalty on regional differences in recruitment was reduced from 1.0 to the MFCL default value of 0.1.
+    \item The maximum mortality rate in the model was changed from the MFCL default value of 5.0 to become a gradual process during the model estimation, where the upper limit starts at 0.7 and is gradually increased to 3.0.
+    \item The assumed fishing mortality before the first year of the model was set to zero instead of the average of the first five years.
+    \item A penalty on movement coefficients was reduced from the MFCL default value of 5.0, applied to differences from zero movement, to a penalty of 0.1 applied to movement coefficients deviating from the prior mean of 0.1.
+  \end{enumerate}
+
+  \item \textbf{CatchCond}. Moving from a catch-errors model to catch-conditioned model was an important structural change in this year's assessment. By assuming that the total catches are observed with negligible error, instead of estimating effort deviates as was done in previous models, the number of model parameters decreased from 11,668 down to 2,963. This reduced the run time of each model by approximately one third and the expectation was that the smaller number of estimated parameters would lead to more reliable model convergence, which had been identified as a key challenge in previous assessments. This stepwise change was implemented in two parts, in an attempt to isolate the effect of the structural transformation from the accompanying change in CPUE likelihood:
+  \begin{enumerate}
+    \item The intermediate `Old CPUE' model implements an initial catch-conditioned model, introducing grouped index fisheries with common catchability but retaining the catch-errors CPUE likelihood, through estimating the relationship between fishing mortality level and effort.
+    \item The fully converted `New CPUE' model includes a likelihood component that measures directly the goodness of fit to the observed CPUE indices, instead of estimating the relationship between fishing mortality and effort.
+  \end{enumerate}
+
+  \item \textbf{SelChanges}. In the 2020 assessment, all index fisheries and some of the extraction longline fisheries were modelled with a penalty constraining their selectivity to be non-decreasing, to avoid cryptic biomass in the model. After experimental analyses and evaluations for this year's model development, however, it was deemed enough to constrain only the index fisheries to avoid cryptic biomass in the model. This step estimated selectivity for all extraction longline fisheries without the non-decreasing constraint.
+
+  \item \textbf{TagStructure}. Two changes were made to the modelling of tagging data in the assessment model:
+  \begin{enumerate}
+    \item The upper limit of the estimated tag reporting rates was increased from 0.90 to 0.99, in an attempt to relieve the problem of estimated parameters running into bounds.
+    \item Tag release groups were excluded from tag reporting rate estimation if they had 5 or fewer recaptures.
+  \end{enumerate}
+
+  \item \textbf{Growth}. The von Bertalanffy growth parameters $L_1$, $L_A$, and $K$, were all estimated in the 2020 assessment. However, the $L_1$ parameter was estimated at a lower bound that was set at 20.0 cm. When this bound was lowered, the estimated value of $L_1$ went down to 7.9 cm, well below any observations found in the data. At this stage in the stepwise development, options were considered to alleviate this problem and a decision made to fix the $L_1$ parameter at the average length of age 1 quarter fish, based on observed length measurements from the otolith data, where $\overline{L_1}=19.8$~cm $(n=66)$. The growth parameters $L_A$ and $K$, along with the growth variability parameters $\sigma_1$ and $\sigma_A$, were estimated in this model and subsequent steps without running into bounds.
+
+  \item \textbf{DataWeights}. Three adjustments were made to the data weighting in the model:
+  \begin{enumerate}
+    \item CPUE data weights are expressed as $\sigma_I$, the magnitude of observation noise around the CPUE indices. In the previous assessment, $\sigma_I$ was set to 0.20 in all regions. For this assessment, a statistical approach was used to estimate maximum likelihood region-specific $\sigma_I$ values as the standard deviation of log-residuals. The residuals are from a fitted model at this point in the stepwise development. These maximum likelihood $\sigma_I$ values are then kept the same throughout the stepwise development, diagnostic model, and structural uncertainty grid. The statistically derived $\sigma_I$ values are 0.25 on average, varying slightly between regions.
+    \item Age data weights for the otoliths are expressed on a scale between 0 and 1, where 1 would mean that the otoliths sampled were a perfect representation of the yellowfin tuna population across areas, years, quarters, age, etc. To acknowledge that this is not the case, a value of 0.75 was chosen as a reasonable value, which is lower than the value of 1 used in the last assessment.
+    \item Size composition data weights are expressed as a denominator to divide the number of fish measured to approximate an effective sample size for a given fishery in a year-quarter. A denominator of 20 was used in this assessment, lower than the value of 40 from the previous assessment. One reason to change this value was that the size composition data were to be filtered at a later step (see `FilterSizeComps' below), resulting in a smaller number of measured fish in the final input data.
+  \end{enumerate}
+
+  \item \textbf{NatMort}. The natural mortality at age used in the last assessment posed practical problems related to its estimation outside of the assessment model and its dependency on sex-specific catch data, as well as the requirement of updating the analyses whenever growth parameters estimates were updated. Furthermore, the last assessment report commented that the natural mortality rates seemed too high when compared to a meta analysis based on life-history theory and empirical estimates. To overcome these challenges, and to incorporate recommendations from the 2023 CAPAM Tuna Stock Assessment Good Practices workshop, this year's assessment used an internally estimated Lorenzen curve for natural mortality. This was a major structural change in the assessment model, as the shape of the Lorenzen curve differs substantially from the previous curve and the overall scale of the natural mortality rate was estimated rather than fixed.
+
+  \item \textbf{TaggerEffect}. The recommended tagger effects model, based on the 2022 workshop and simulation study \citep{peatman_analysis_2022-1,peatman_analysis_2023-1} with the recommended separate tagger effects models for the western Pacific and central Pacific tagging cruises, was applied to the tagging data. The processing of the tagging data uses a model that is different from the 2020 assessment, reverting to assumptions similar to those used in 2017.
+
+  \item \textbf{NewCPUEMethod}. This year, the spatio-temporal analysis to produce CPUE indices was updated, adding new covariates and using the sdmTMB modelling platform instead of VAST \citep{teears_cpue_2023}.
+
+  \item \textbf{NewData}. This step included revisions to data from 1952--2018 and added three years of new data from 2019--2021, including new tagging data, minor revisions to data filtering protocols for composition data, new length and weight composition data, and new CPUE data. No new conditional age-at-length data were available since the 2020 assessment. The length-weight conversion factors were updated in a separate stepwise model run before the main data update. Due to the limited time between receiving the finalised new data and the SC meeting, all other data components were updated together rather than one at a time.
+
+  \item \textbf{FilterSizeComps}. Two changes were made in the treatment of size composition data in this year's assessment, both to length and weight compositions:
+  \begin{enumerate}
+    \item Tail compression was applied to remove the lower and upper tails of all size frequency distributions that only contain zero-frequency observations. This treatment results in size distributions that have the same range as the observed data. When MFCL calculates a predicted size frequency distribution, it accumulates the very smallest and largest sizes and adds them to the first and last observed size bin.
+    \item An MFCL setting was enabled to exclude length and weight frequency samples of less than 50 fish.
+  \end{enumerate}
+  The purpose of both these changes was to facilitate the estimation of selectivities so that each fishery removed fish of the right sizes in the stock assessment model. The estimation of selectivity shape parameters has been identified as a challenge in previous assessments and the expectation was that reducing noise from the observed data could result in improved convergence and more reliable parameter estimates.
+
+  \item \textbf{FiveRegions}. Following recommendations from the 2022 stock assessment review and the 2023 pre-assessment workshop, alternative regional structures were considered for this year's assessment. The conclusion was to adopt a 5 region structure, merging selected regions from the 9 region structure that was used in the last assessment. The new structure substantially reduced model complexity, especially in terms of estimated region-year-quarter recruitment deviations and movement between regions, decreasing the number of model parameters from 3,069 down to 1,901. This change resulted in reducing the run time of each model by approximately one third and the expectation was that the smaller number of estimated parameters would lead to more reliable model convergence, which had been identified as a key challenge in previous assessments.
+
+  \item \textbf{Diagnostic2023}. The final refinements for the 2023 diagnostic model involved estimating natural mortality and growth parameters in the last estimation phase and updating the starting values of these parameters, based on a jittering analysis. This change resulted in a considerable improvement in the objective function value and a positive definite Hessian.
+
+\end{enumerate}
+
+\subsection{Sensitivity analyses and structural uncertainty}
+\label{sec:sensitivity_structural_uncertainty}
+
+\subsubsection{Sensitivities}
+\label{sec:sensitivities}
+
+Various one-off sensitivity models were explored to understand the sensitivity of the diagnostic model estimations to structural and data uncertainties. Each one-off sensitivity model was created by making a single change to the 2023 diagnostic model. These sensitivities are described below:
+
+\begin{enumerate}
+  \item Steepness: 0.65, 0.95
+  \item Tag mixing: 1 quarter
+  \item Size data weighting: 10, 40
+  \item Conditional age-at-length data weighting: 0.5, 1
+\end{enumerate}
+
+\subsubsection{Structural uncertainty}
+\label{sec:uncertainty_grid}
+
+Stock assessments of pelagic species in the WCPO use an approach to assess the structural uncertainty in the assessment model by running a `grid' of models that explore the interactions among selected `axes' of uncertainty. The grid contains all combinations of levels of several model quantities, or assumptions, and allows the sensitivity of stock status and management quantities to this uncertainty to be determined and factored into management advice. The axes are generally selected from factors explored in the one-off sensitivities with the aim of providing an approximate understanding of variability in model estimates due to assumptions in model structure not accounted for by statistical uncertainty estimated in a single model run, or over a set of one-off sensitivities.
+
+The structural uncertainty grid for the 2023 yellowfin stock assessment was constructed from 4 axes of uncertainty with 1--3 levels for each (below), resulting in a total of 54 models (\autoref{tab:grid_desc}). The previous assessment included axes for steepness (same values as current assessment), growth (internal estimate based on length modes, external otolith growth curve, conditional age-at-length internal), size data weighting (20, 60, 200, 500), and tag mixing (1 quarter, 2 quarters).
+
+The values for the diagnostic model are in bold and the levels used in the grid are directly comparable to those presented in \autoref{sec:structural_uncertainty_analysis} through identical notation. The levels of the grid are:
+
+\begin{enumerate}
+  \item Steepness: 0.65, \textbf{0.8}, 0.95
+  \item Tag mixing: 1 quarter, \textbf{2} quarters
+  \item Size data weighting: 10, \textbf{20}, 40
+  \item Conditional age-at-length data weighting: 0.5, \textbf{0.75}, 1
+\end{enumerate}
+
+\subsubsection{Integrated model and estimation uncertainty for key management quantities}
+\label{sec:estimation_uncertainty_approach}
+
+For a full picture of uncertainty for the key management quantities (\sbrsbfo, \sbrsbmsy and \fref) we attempted for the first time to integrate estimation uncertainty for individual grid models with the variability in best estimates of these quantities across the grid. The procedure that we adopted involved the following:
+
+\begin{enumerate}
+  \item Obtain the best estimates of the key management quantities for each of the 54 grid models;
+  \item Obtain Hessian-based estimates of the standard deviations for these quantities using the variance-covariance matrix of the model parameters and the Delta Method:
+  \item Generate 1,000 random draws from normal distributions with mean and standard deviation specified as per steps 1 and 2, above, for each of the 54 grid models; in the case of \sbrsbfo, which was estimated on the log scale, transform the random deviates to normal space by taking their exponent;
+  \item Compute the mean, median, and 10th, 25th, 75th and 90th percentiles of the 54,000 values of each management quantity.
+\end{enumerate}
+
+Note that the above procedure implicitly gives equal weight to each of the 54 grid models, which we felt was appropriate for this assessment. However, different relative weights could easily be given by varying the number of random draws of the management quantities from each grid model.
+
+With respect to step 2, we were able to derive SDs even in cases where the Hessian matrix was not positive definite, but with a few very small negative eigenvalues, using a Hessian `positivisation' process that has been coded in MFCL. By comparison of similar models from the grid that did and did not have zero negative eigenvalues, we were able to establish that the estimates of standard deviations of the key management quantities were completely unaffected by the Hessian not being positive definite, but with a few (maximum of 1 in the case of bigeye) very small negative eigenvalues. Therefore, we opted to include the estimates of estimation error from the few models that did not have positive definite Hessians.

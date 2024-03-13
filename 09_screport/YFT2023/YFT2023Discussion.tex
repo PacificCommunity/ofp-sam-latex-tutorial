@@ -1,0 +1,107 @@
+% -*- TeX-master: "YFT2023.tex"; eval: (longlines-mode); fill-column: 100000 -*-
+
+\section{Discussion and conclusions}
+\label{sec:discussion}
+
+\subsection{Stock status}
+
+The 2023 WCPO yellowfin tuna stock assessment estimated that the median recent spawning depletion (\sbrsbfo) at the stock-wide scale for all models in the grid are well above the limit reference point (\autoref{fig:grid-depletion}) and \ffmsy is less than one.
+
+The reference points calculated from the uncertainty grid results, incorporating estimation uncertainty, suggest that the median \sbrsbfo is 0.47 (\autoref{tab:grid_outcomes}, \autoref{fig:grid-depletion}). \ffmsy is less than one, with a median value of 0.50.
+
+Estimated depletion and the spawning potential across the whole model region showed a long term decline to around the mid-2000s and remained stable after that, while the spawning potential was estimated to have increased slightly in the most recent period. The most notable declines are in the tropical region, with slightly lesser declines in the temperate regions.
+
+Overall, the outcomes of this assessment suggest that the yellowfin stock in the WCPO is not overfished or undergoing overfishing.
+
+CMM 2021-01 contains an objective to maintain the spawning biomass depletion ratio above the average \sbsbfo for 2012-2015 (which is a value of 44\% calculated across the unweighted grid). Based upon the estimates of \sbrsbfo (47\%\sbfo) this objective has currently been met.
+
+\subsection{Changes to the previous assessment}
+\label{sec:changes}
+
+The addition of three more years of data (tagging, catch, effort, size compositions) and several other model changes were introduced to the 2023 assessment. These included:
+
+\begin{itemize}
+  \item Conversion from a catch-errors to a catch-conditioned approach, and the inclusion of a likelihood component for the CPUE from the index fisheries.
+  \item Change from using VAST to sdmTMB to standardise the input CPUE series and the inclusion of additional covariates in the CPUE model.
+  \item Different CPUE variances used for the CPUE associated with each index fishery, applying a new approach to estimate these variances.
+  \item Internal estimation of natural mortality and application of the Lorenzen form of natural mortality at age.
+  \item Additional procedures implemented for achieving more reliable model convergence, including jittering and checking positive definite Hessian status for all grid models.
+  \item Integration of parameter estimation uncertainty with model-based uncertainty across the model grid for the key management reference points.
+  \item Additional size composition filtering.
+  \item Modifications to selectivity estimation settings, changes to fisheries with non-decreasing selectivity.
+  \item Adoption of revised tagger effect modelling framework, reverting to assumptions similar to those used in 2017.
+  \item Changes to size data weighting and downweighting the conditional age-at-length data for internal growth estimation.
+\end{itemize}
+
+\subsection{Model diagnostics and commentary}
+\label{sec:model_diagnostics}
+
+\subsubsection{Mode of operation in early stepwise development}
+
+During the stepwise model development, diverse modelling options were explored and evaluated. This involved checking the model fit to data, both visually and by tabulating the likelihood components and maximum gradient to compare alternative models. When models achieved a low gradient, Hessian calculations were sometimes run to see if it was positive definite, which would take another day of computing time. By investing a little bit of human time, managing scripts and files, the Hessian can be run in parallel on multiple cores to get the results on the same day. The workflow to conduct Hessian calculations on dozens of models simultaneously has been streamlined by the newly developed R package called \textsf{hessian}, tailored for MFCL and SPC-specific servers.
+
+More often than not, though, the decision to adopt a certain stepwise modelling option was not based on gradients or Hessians, or the total objective function, as changes in the model or data treatment would cause the likelihood components to be not comparable. The reasoning behind the adoption of each stepwise change is outlined in \autoref{sec:stepwise}.
+
+It is worth noting that during the entire stepwise pathway from the 2020 diagnostic model to the 2023 diagnostic model, the yellowfin model showed consistently worse gradients than the bigeye model, even though they are very similar models with only a few differences. The main difference lies in the data, where the yellowfin data seem to pose a more irregular likelihood surface for the model. This was confirmed in the likelihood profile analysis, where the same computational approach for profiling resulted in more uneven likelihood surfaces (\autoref{fig:likelihood_profile}) for the yellowfin assessment than for bigeye.
+
+\subsubsection{Mode of operation in late stepwise development}
+
+At the stepwise change when the estimation of $M$ was introduced, it became apparent that this change was resulting in noticeably worse gradients than from the earlier model with a fixed $M$. The uncertainty about $M$ can either be addressed by estimating $M$ within the model or as a structural uncertainty with a number of fixed $M$ options. After explorations and evaluations, it was decided that the best approach was to estimate $M$ within the model.
+
+At this point, it became clear that jittering was necessary to assist the model to find the best fit. A set of 10, 20, or 50 jitters were used and the finding was that the very best likelihood is found in a rough and uneven area of the likelihood surface, where gradients are high and the Hessians not positive definite. A nearby model could often be found at a local minimum, with quite similar parameter values, a good gradient and a positive definite Hessian, but with a worse objective function value and unfortunately often with substantially different estimates of management quantities.
+
+One important lesson from this is that at least for the yellowfin assessment, a positive definite Hessian is a highly unreliable indicator of having found the best model fit to the data for a specific model configuration. Jittering is the tool to find the best fit, and in the case of yellowfin, the best fit is unlikely to have a positive definite Hessian.
+
+\subsubsection{Refining the diagnostic model}
+
+In the best case, a model run that starts from a standard MFCL \verb|.ini| file results in a fit whose objective function value is not quite as good as a jittered version of the same model, but the parent model before jittering has similar estimated parameter values and management quantities. The 2023 diagnostic model is such a model.
+
+The 2023 diagnostic model has both an ancestor model and offspring models. All three `generations' share the same model parametrization and data handling. The ancestor model, named \verb|14_Five_Regions| in the stepwise development, gave a very different estimate of depletion than the main \verb|15_Diag_2023| diagnostic model (\autoref{fig:stepwise_depletion}). The refinement from step 14 to 15 involved an extensive exploration of the likelihood surface using jittering, revising initial parameter values, and changing the estimation phases.
+
+The main diagnostic model runs from a standard \verb|.ini| file, converges to a good objective function value and has a positive definite Hessian. However, when the diagnostic model is jittered from its final \verb|.par| file, slightly better fits can be found with a lower objective function value that have similar estimates of management quantities. Such jitter offspring models can only be run from a final \verb|.par| file and not from a standard \verb|.ini| file, where users generally specify initial values and other model settings. Furthermore, these jitter offspring models have higher gradients and do not have a positive definite Hessian. Overall, it does not seem that a positive definite Hessian should be seen as a strong requirement or guarantee of a well converged model.
+
+\subsubsection{Model reliability and challenges}
+
+The retrospective analysis (\autoref{sec:retro_analysis}) shows a pattern of a slight but consistent underestimation of biomass and depletion, which is `corrected' each time a year of data is added. These results are similar to the retrospective analysis presented in the 2020 assessment.
+
+During the stepwise model development, as well as jittering, two alternative models could often have a comparable objective function value, but one had a better likelihood for the length compositions and the other model had a better likelihood for the weight compositions. The likelihood profile in \autoref{fig:likelihood_profile} shows the conflict between these data components very clearly.
+
+Overall, it's fair to say that the yellowfin assessment is subject to model convergence problems that pose both statistical and operational challenges for the assessment. Simplifying the regional structure has not solved the model convergence issues in terms of large final gradients and the need for jittering, as well as estimating zero recruitment in region 3. One important benefit of the simplified regional structure was to reduce the run time of a single model from around 17 hours to 12 hours, which allowed a substantially more rapid cycle of model development and testing.
+
+\subsection{Recommendations for further work}
+\label{sec:recommendations_further_work}
+
+Changing the spatial structure from 9 regions to 5 regions involved some extra work that resulted in benefits such as reducing both the number of parameters and the computational time each run takes, as well as slight improvements in model convergence in terms of Hessians and gradients. To simplify the model further, it is likely that the number of fisheries could be reduced, merging similar fisheries that are now in the same region. Simplifying the fisheries could help with model convergence and parameter estimability, as selectivities are a challenging aspect for the model fitting, as spline node parameters frequently run into bounds. When deciding which fisheries could be merged, one would compare the size frequencies of those fisheries, tagging data, as well as fisheries management aspects. This would be a good topic to examine in the next assessment.
+
+The large proportion of the stock biomass estimated in the higher latitude regions 1 and 5 are a concern, given that there are almost no catches observed in those regions. Specifically, 41\% of the current biomass is estimated to be in regions 1 and 5, while 6\% of the catches in tonnes are observed in those regions. A research effort was made in this year's assessment to examine whether there is evidence in the data that such a large proportion of the biomass might be in regions 1 and 5. Alternative approaches were explored for the CPUE data preparation, but did not lead to important findings regarding this issue. The 2022 yellowfin assessment review recommended implementing an equatorial-only model to examine this issue, which would exclude the higher latitude regions but would still contain 94\% of the fishery catches. This regional study should be conducted outside of the main assessment period.
+
+This year's stepwise model development included a stage where alternative options to model natural mortality ($M$) were explored and evaluated. The options included: (1) same $M$-at-age as used in the 2020 assessment; (2) an $M$-at-age curve that has the same shape as used in the 2020 assessment but estimating the overall scale; (3) Lorenzen $M$ curve estimating the overall scale; (4) a two-stage $M$-at-age curve with the original scale tabulated in \cite{hoyle_approaches_2023}; and (5) the same two-stage $M$-at-age curve but estimating the overall scale. All options had some strengths and weaknesses with respect to likelihoods, residual patterns, model convergence, and other model selection criteria. A decision was made that the Lorenzen curve was the best option, noting that it would have been good to have more time to explore the $M$ options. This was at a stepwise development stage where the assessment model had 9 regions and a few other model changes were also yet to be made. It would be a worthwhile research topic to revisit the question of how best to model $M$ in the yellowfin assessment.
+
+Another decision during the stepwise model development was to fix the $L_1$ parameter, as a workaround to prevent unreasonably low estimates of 9 cm that were occurring in the 9 region model at that stage in the model development. As a very last check in the assessment analysis, at the time of this writing, an unofficial model run was conducted where $L_1$ was estimated in the 5 region model and the result was that $L_1$ was estimated as 18 cm. It is possible that with the simplified model structure that $L_1$ is now estimable and does not need to be fixed. In general, it is better to estimate such parameters than to fix them, so this would be a good potential improvement to evaluate in the next assessment's stepwise development.
+
+The biological data from the yellowfin stock assessment suffer from some geographic gaps in the data. Ideally, all data components should be sampled so that the observations reflect the entire stock. There are ongoing and planned research projects that relate to this objective, which will directly improve the reliability of the yellowfin stock assessment results, including the estimation of the relative stock status.
+
+In the near future, there is a need to explore and develop alternative stock assessment software platforms to succeed MFCL that are capable of appropriately utilising the data relevant to WCPFC tuna stocks.
+
+\subsection{Main assessment conclusions}
+\label{sec:main_conclusions}
+
+The general conclusions of this assessment are as follows:
+
+\begin{itemize}
+  \item The spawning potential of the stock has become more depleted across all model regions until around 2010, after which it has become more stable, or shown a slight increase.
+  \item Average fishing mortality rates for juvenile and adult age classes have increased throughout the period of the assessment, although more so for juveniles which have experienced considerably higher fishing mortality than adults. In the recent period a sharp increase in juvenile fishing mortality is estimated, while adult fishing mortality has stabilised.
+  \item Overall, median depletion from the model grid for the recent period (2018--2021; \sbrsbfo) is estimated at 0.47 (80 percentile range including estimation and structural uncertainty 0.42--0.52, full range 0.36--0.59).
+  \item No models from the uncertainty grid, including estimation uncertainty, estimate the stock to be below the LRP of \lrp.
+  \item CMM 2021-01 contains an objective to maintain the spawning biomass depletion ratio above the average of 2012-2015, $\mathit{SB}_{2012-2015}$/\sbfo, which is a value of 0.44 calculated across the unweighted grid. Based upon the estimates of \sbrsbfo of 0.47, this objective has currently been met.
+  \item Recent (2017--2020) median fishing mortality (\fref) was 0.50 (80 percentile range, including estimation and structural uncertainty 0.41--0.62, full range 0.26--0.78).
+  \item Assessment results suggest that the yellowfin stock in the WCPO is not overfished, nor undergoing overfishing.
+\end{itemize}
+
+\clearpage
+
+\section{Acknowledgements}
+
+We thank the various fisheries agencies and regional fisheries observers for their support with data collection, provision and preparatory analysis. We thank participants at the preparatory stock assessment workshop for their contributions to the assessment. We especially thank the SPC data management team for their hard work and support to provide the data fuel for the assessment. We particularly thank the three independent peer review experts for the insightful comments that helped advance and improve this assessment immeasurably. We are grateful to Fabrice Bouyé for ensuring smooth operation of the computing resources required to do the assessment. Funding from Pacific-European Union (EU) Marine Partnership (PEUMP) supported the work on CPUE analysis. Finally, we highlight the lifetime of work that Dave Fournier put into MULTIFAN-CL, without which we could not have performed this assessment.
+
+\newpage

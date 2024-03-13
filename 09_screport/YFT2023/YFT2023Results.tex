@@ -1,0 +1,126 @@
+% -*- TeX-master: "YFT2023.tex"; eval: (longlines-mode); fill-column: 100000 -*-
+
+\section{Results}
+
+\subsection{Consequences of key model developments}
+\label{sec:stepwise_results}
+
+The progression of model development from the 2020 diagnostic model to the 2023 diagnostic model is described in \autoref{sec:stepwise} and the results are displayed in \autoref{fig:stepwise_biomass} and \autoref{fig:stepwise_depletion}. In previous assessments, the stepwise analysis has been presented simply by running MFCL at each step, plotting the results and attributing the change in results to changes in the model or the data. Through the process of building this stepwise development, it became apparent that model convergence is a significant issue for these complex models, and jittering is an important process to refine and improve the best solution found for any model.
+
+Due to constraints in both time and computational resources, it was not feasible to conduct a jitter analysis during the full breadth of model exploration involved in the stepwise development. Such analysis was completed for the diagnostic model and for every model in the uncertainty grid, but not for the stepwise development. As a result, the successive estimations of two key management quantities, dynamic spawning potential depletion \sbsbfo and spawning potential \sb, in the stepwise development should only be considered indicative of potential changes.
+
+\begin{enumerate}
+
+  \item \textbf{Diag2020}. The 2020 yellowfin diagnostic model, using data from 2020.
+
+  \item \textbf{NewExe}. Updating the executable resulted in no change in \sbsbfo and a small decrease in \sb.
+
+  \item \textbf{PreCatchCond}. The set of four changes applied before catch-conditioning resulted in a small increase in \sbsbfo and \sb.
+
+  \item \textbf{CatchCond}. The intermediate `Old CPUE' model change resulted in a decrease in \sbsbfo and \sb, but the fully converted `New CPUE' model change resulted in a substantial increase in \sbsbfo and \sb, compared to the intermediate model. The overall effect of the combined `CatchCond' step was a net increase in both quantities.
+
+  \item \textbf{SelChanges}. Removing constraints on longline selectivities had negligible effects on \sbsbfo and \sb.
+
+  \item \textbf{TagStructure}. Changes to the modelling of tagging data resulted in a decrease in \sbsbfo and a small decrease in \sb.
+
+  \item \textbf{Growth}. Fixing the $L_1$ growth parameter resulted in an increase in both quantities.
+
+  \item \textbf{DataWeights} Adjustments to data weighting in the model resulted in a small decrease in \sbsbfo and a decrease in \sb.
+
+  \item \textbf{NatMort}. Estimating Lorenzen natural mortality resulted in a substantial decrease in \sbsbfo, despite a substantial increase in \sb, suggesting the biggest influence of this step was to increase the estimate of \sbfo.
+
+  \item \textbf{TaggerEffect}. Updating the tagger effects model resulted in a decrease in both quantities.
+
+  \item \textbf{NewCPUEMethod}. Updating the CPUE spatio-temporal analysis resulted in a decrease in both quantities.
+
+  \item \textbf{NewData}. Adding the new data resulted in a decrease in both quantities.
+
+  \item \textbf{FilterSizeComps}. Changing the treatment of size composition data resulted in an increase in \sbsbfo and no change in \sb.
+
+  \item \textbf{FiveRegions}. Adopting the 5 region structure resulted in a decrease in \sbsbfo, despite a substantial increase in \sb, suggesting the biggest influence of this step was to increase the estimate of \sbfo.
+
+  \item \textbf{Diag2023}. The final refinements to improve the objective function value of the diagnostic model resulted in a decrease in \sbsbfo and substantial decrease in \sb.
+
+\end{enumerate}
+
+Overall, the changes in \sbsbfo are small until it decreases in steps 9 through 12, and again in step 15. The cumulative effect of all changes between the 2020 diagnostic model and the current diagnostic model is a reduction of \sbsbfo from 55\% to 43\% for the year 2018, the last year where they can be compared. The current diagnostic model estimates the final \sbsbfo in 2021 also at 43\%.
+
+The difference between the 2020 diagnostic model and the current diagnostic model is considerable in terms of \sbsbfo but much smaller in terms of \sb. In other words, it is not the numerator (\sb) that makes \sbsbfo different between the two diagnostic models but the denominator (\sbfo). The increase in \sbfo occurs mainly in step 9, estimating Lorenzen natural mortality.
+
+Subject to the caveat that none of the steps in the stepwise development involved jittering, the most influential steps in the development of the 2023 diagnostic model appear to be the estimation of natural mortality using the Lorenzen curve, applying the revised tagger effects method, and updating the CPUE spatio-temporal analysis, in terms of decreasing the final value of \sbsbfo.
+
+\subsection{Fit of the diagnostic model to data sources}
+\label{sec:fit_diag}
+
+\subsubsection{Standardised CPUE from index fisheries}
+\label{sec:fit_cpue}
+
+The observed CPUE indices show a general and steady decline from the 1950s until around 2000 and show a relatively stable trend after that. Comparing the range of recent indices to that of historical ones, the catch rates in region 1 have declined less than in other stock regions.
+
+The values of the observed CPUE indices in each region act as regional scalers, since the catchability coefficient is the same across all regions. The observed CPUE index in the final year 2021, averaged over quarters, is higher in region 4 than in other regions, implying that this region contains the highest abundance of yellowfin tuna. Expressed as proportions, the implied abundance from the observed 2021 CPUE index suggests that 43\% of the abundance is in the higher latitude regions 1 and 5, while 57\% of the abundance is in the equatorial regions 2, 3, and 4.
+
+The model fits to the index fishery standardised CPUE data were generally very good for all model regions (\autoref{fig:cpue_fit}). The model was able to predict the longer term trends and short-term variation at the sub-decadal scale. The residual plots (\autoref{fig:cpue_resids}) generally show agreeable residual distributions, although there tends to be a greater spread in the residuals earlier in the time series associated with the higher CPUE levels. There are sequences of negative residuals in regions 2 and 4 between 2009 and 2014, but the model fits the main CPUE trends after that.
+
+\subsubsection{Size composition data}
+\label{sec:fit_sizecomp}
+
+\textbf{Longline fisheries:} The aggregate model fits to the weight composition data for the longline extraction fisheries (fisheries 1--29, \autoref{fig:weight_fit_aggregated}) were relatively good for all fisheries, and most importantly for the fisheries accounting for the largest catches, such as 4, 6, and 9 (\autoref{fig:catch_by_fishery_longline}) in regions 2 and 4. One example of a fishery where the model does not fit the weight composition well is fishery 27, whose selectivity is linked with that of fishery 10, where the weight frequency distribution is bimodal. Both of those fisheries have a considerable number of weight samples but the annual catches are very small. Fishery 3 has a bimodal distribution that the model manages to fit quite well.
+
+The index fisheries all have a common shared selectivity, where the model fit to fisheries 35 and 36 (regions 3 and 4) underestimates the proportion of small fish and overestimates the proportion of large fish. For the index fisheries in regions 1, 2, and 5, the model fits the weight compositions more closely.
+
+\textbf{Other fisheries:} The aggregated length composition fits are also mostly good for the non-longline fisheries, with the exception of fisheries 19 and 20 (\autoref{fig:length_fit_aggregated}). These two fisheries in region 1 are the Japanese purse seine and pole and line fisheries, respectively. Both fisheries feature multi-modal distributions in the input data, and both fisheries catch relatively small amounts of yellowfin, so the inability to fit those compositions is not so important compared to other fisheries with larger catches. The non-longline fisheries with the largest annual catches are fisheries 13, 14, 17, 23, and 26 (\autoref{fig:catch_by_fishery_ps}, \autoref{fig:catch_by_fishery_other}) consisting of miscellaneous gears in region 2 and purse seine in regions 3 and 4.
+
+\subsubsection{Tagging data}
+\label{sec:fit_tagging}
+
+When aggregated, the tag attrition estimates fit the tagging data relatively well (\autoref{fig:tag_attrition_all}), albeit overestimating the number of tag returns after 2 periods at liberty, and underestimating the returns in periods 3--5. When compared at the tag program scale, there are some differences in the quality of fit (\autoref{fig:tag_attrition_by_program}). The fit to the PTTP generally reflects the fit to the aggregated scale, as this represents a large majority of the tags used in the assessment. The RTTP program is the second largest in terms of tag input data for yellowfin, and the data and fit also resemble the aggregated scale. The fit to the JPTP program is not as good, underestimating the tag returns after 2--6 periods at liberty and overestimating the tag returns for longer periods at liberty. At the regional scale, region 1 looks similar to the JPTP program and regions 2--4 look similar to the PTTP and RTTP programs (\autoref{fig:tag_attrition_by_region}). Region 5 has very few tag returns, with irregular patterns in the observed tag return data that the model does not fit well. Most of the tag returns occur in regions 3 and 4.
+
+For the tag returns by year/quarter of recapture, the model-predicted tag returns show relatively good agreement with the observed data, albeit with some spikes missed and some over- and under-prediction at various periods (\autoref{fig:tag_returns_all_year}). The number of tag returns is low for most longline fisheries, so the fits to these patchy data are of minor consequence to the likelihood (\autoref{fig:tag_returns_by_fishery_ll}). The fits to fisheries other than longline are good for those fisheries with the most observed tag returns, namely fisheries 25 and 26 (purse seine in region 3), fisheries 13, 14, 15, and 16 (purse seine in region 4), and fisheries 17, 18, 23, and 24 (miscellaneous gears in region 2). The model fits are reasonable for the other fisheries with small numbers of tag returns (\autoref{fig:tag_returns_by_fishery_oth}).
+
+\subsubsection{Conditional age-at-length}
+\label{sec:fit_CAAL}
+
+The available conditional age-at-length data consists of 1471 otoliths sampled between 1990 to 2018. The geographic distribution of samples (\autoref{fig:otolith_map}) corresponds reasonably well to the range where yellowfin tuna are caught in great quantities. The model fit to the conditional age-at-length data are shown in \autoref{fig:growth_curve} with 95\% prediction intervals. This year's diagnostic model fits the data substantially better than the 2020 diagnostic model, with over 200 units of log-likelihood gain for this data component, when similar data weights are used.
+
+\subsection{Population dynamics estimates}
+\label{sec:pop_dynamics}
+
+\subsubsection{Selectivity}
+\label{sec:selectivity}
+
+A range of selectivity curves are estimated for the different fisheries in the model and can be largely classified by gear type. For longline fisheries, the age-specific selectivity is shown in \autoref{fig:select_LL_and_index_age} and weight-specific selectivity is shown in \autoref{fig:select_LL_and_index_wt}. For other fisheries, the age-specific selectivity is shown in \autoref{fig:select_other_age} and length-specific selectivity is shown in \autoref{fig:select_other_length}.
+
+The five index fisheries have a shared selectivity with a penalty constraining their shape to be non-decreasing, to avoid cryptic biomass in the model. Some of the longline extraction fisheries are also asymptotic or estimate the oldest age classes to be nearly fully selected, specifically fisheries 1, 2, 3, 10, 12, and 27, all in the higher latitude regions 1 and 5. All other longline fisheries have estimated selectivity with a peak at around 10 to 15 quarters, with selectivity then declining to some asymptote at an intermediate value between zero and full selectivity for the oldest fish. The selectivity by weight shows similar patterns, but expressed in weight rather than age, where the aforementioned higher latitude longline fisheries tend to reach full selectivity around 40 kg and the other longline fisheries typically achieving maximum selectivity around 30 kg.
+
+The selectivity for the non-longline fisheries generally targets younger fish than longline. The main fisheries in region 2, such as fisheries 17, 23, and 24, have an estimated selectivity that peaks at age 2--3 quarters and then declines, reaching zero selectivity by age 10 quarters. The exception to this is fishery 18 that has a selectivity that is asymptotic and increases gradually with age, reaching half selectivity around age 18 quarters. The major purse seine fisheries 13, 14, and 26, in regions 3 and 4, have estimated selectivity curves that fully select ages 4--5 quarters and then decline gradually for older ages. Expressed in length, fisheries 17, 23, and 24 in region 2 reach full selectivity between 35 and 50 cm, while fisheries 13, 14, and 26 in regions 3 and 4 achieve maximum selectivity between 60 and 70 cm.
+
+\subsubsection{Movement}
+\label{sec:movement}
+
+Observed patterns of tag releases and returns among regions are compared to the estimated movement coefficients between regions for each quarter from the diagnostic model in \autoref{fig:movement_matrices} and in \autoref{fig:season_movement_coeff}.
+
+Summing the observed tagging data over all quarters, the implied retention rate varies between regions, where over 90\% of the tags released in regions 1, 2, 3 are recaptured within the same region, 80\% for region 4, but only 12\% of tags released in region 5 are recaptured within that region. Most of the tags released in region 5 are recaptured in region 3, whereas almost no tags released in region 3 are recaptured in region 5. Thus, the data suggest a substantial northward movement from region 5 to 3. Another movement direction suggested by the data comes from the observation that 20\% of the tags released in region 4 are recaptured in region 3.
+
+The movement estimated in the model, averaging over quarters, shows somewhat different trends, with movement coefficients around 0.90 staying within regions 1, 2, 4, and 5 but a lower rate of around 0.60 staying in region 3. The estimated movement from region 3 is mainly into region 5 but also into region 4. The main movement within the model, southward from region 3 to region 5, is in the opposite direction from what the tagging data indicate. This reflects that the tagging data are not the only data source contributing to the estimation of movement in this integrated assessment. MFCL has considerable freedom to trade off recruitment and regional movement, so care should be taken in drawing conclusions on one of these estimates without considering the other.
+
+\subsubsection{Natural mortality}
+\label{sec:natM}
+
+The Lorenzen form of natural mortality $M$ is used in the 2023 assessment, with the scale of this curve estimated. As noted in the methods, this is considered good practice. This is in contrast to the 2020 diagnostic model which used a different form for $M$ with the scale fixed. The comparison between the estimated $M$ in 2023 diagnostic model and the fixed $M$ is shown in \autoref{fig:natm_at_age}. Compared to the fixed $M$ used in the 2020 diagnostic mode, the Lorenzen form of $M$ features considerably higher levels of $M$ for the youngest fish, and a lower asymptote for the older age classes.
+
+The scale of $M$ in the 2020 diagnostic model was determined by a geometric mean parameter which was set at 0.232 per quarter. The geometric mean of the Lorenzen $M$ curve in the 2023 diagnostic model can be calculated as 0.153 per quarter, but these quantities are not directly comparable as the shape of the curve is quite different. The Lorenzen scale parameter that is estimated in the current diagnostic model determines $M$ at the highest age in the model. This parameter is estimated by the diagnostic model as 0.119 per quarter, with 95\% confidence limits at 0.113 and 0.126, based on the Hessian.
+
+\subsubsection{Maturity}
+\label{sec:maturity_at_age}
+
+Maturity-at-age is derived from the fixed maturity-at-length (fixed at the same values used in the 2020 diagnostic model) and applying the estimated growth curve to this to get maturity-at-age for the 2023 diagnostic model. This maturity-at-age curve differs slightly from the 2020 diagnostic model (\autoref{fig:maturity_ogive}) due to the differences in growth curves in these two models.
+
+\subsubsection{Tag reporting rates}
+\label{sec:tag_reporting_rates}
+
+The estimated tag reporting rates by fishery recapture groups (see groupings in \autoref{tab:fisheries_definitions}) are shown in \autoref{fig:tag_report_rates}. As expected, the reporting rate estimates differ among fisheries groups and across tagging programs. In most cases, the reporting rate estimates for those groupings that received higher penalties were relatively close to the prior mean. Any fishery recapture groups for which there are no reported tag recaptures have tag reporting rates fixed at zero. In addition, groups with low numbers of tag recaptures (less than six) were also fixed at zero and those recaptures removed from the input file. This left 20 tag reporting rate groups where the reporting rates were estimated, of which 7 tag reporting group rates estimated on the upper bound at 0.99. The change in the assessment model this year, raising the bound from 0.90 to 0.99, did not prevent the tag reporting rate from running into bounds during the parameter estimation.
+
+\subsubsection{Growth}
+\label{sec:growth_param}
+
+Growth was estimated in the 2023 diagnostic model using a von Bertalanffy growth form, where $L_1$ is the mean length at age 1 quarter, $L_A$ is the mean length at oldest age in the model, $K$ is a shape parameter, $\sigma_1$ is the length variability at age 1 quarter, and $\sigma_A$ is the length variability at the oldest age. As described in \autoref{sec:stepwise}, the $L_1$ parameter is fixed, while all other growth parameters are estimated with the assessment model. The estimated growth curves from the 2020 diagnostic model and the 2023 diagnostic model are shown in \autoref{fig:growth_curve}. Compared to the growth curve from the 2020 assessment, the current growth curve predicts slightly larger body size for the younger ages and smaller body size for ages above 10 quarters.

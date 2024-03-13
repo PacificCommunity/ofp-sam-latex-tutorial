@@ -1,0 +1,96 @@
+% -*- TeX-master: "YFT2023.tex"; eval: (longlines-mode); fill-column: 100000 -*-
+
+\documentclass{SCreport}
+\usepackage{caption,subcaption}
+\usepackage{tabu,longtable}
+\usepackage{lmodern}
+\usepackage[inline]{enumitem}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage[capitalize, nameinlink, noabbrev]{cleveref}
+\usepackage[titletoc,title]{appendix}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{lscape}
+\usepackage{rotating}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{csquotes}
+\usepackage{pdflscape}
+\usepackage{tocloft}
+\setlength{\cftbeforesecskip}{0pt}
+\definecolor{SCblue}{rgb}{0,0.1,0.7}
+\hypersetup{colorlinks, linkcolor=SCblue, filecolor=SCblue, urlcolor=SCblue, citecolor=SCblue}
+\setcounter{tocdepth}{4}
+\begin{document}
+
+\reportauthor{A.~Magnusson\footnote{\spc}, J.~Day$^1$, T.~Teears$^1$, J.~Hampton$^1$, N.~Davies\footnote{TeTakina Ltd}, C.~Castillo Jordán$^1$, T.~Peatman\footnote{Private Consultant}, R.~Scott$^1$, J.~Scutt Phillips$^1$, S.~McKechnie$^1$, F.~Scott$^1$, N.~Yao$^1$, R.~Natadra$^1$, G.~Pilling$^1$, P.~Williams$^1$, P.~Hamer$^1$}
+\reporttitle{Stock assessment of yellowfin tuna in the western and central Pacific Ocean: 2023}
+\reportnumber{\tpnum/SA-WP-04 (Rev.\ 2)}
+\reporttype{SC19}
+\reportdate{15 September 2023}
+\wcpfctitlepage
+
+\clearpage
+\newpage
+
+\newpage
+\clearpage
+
+\textbf{Revision 2}
+
+This revision of the report adds:
+
+\begin{itemize}
+  \item Corrected y-axis numbers on annual recruitment plots, calculated as the sum rather than the average across seasons, effectively multiplying by four (Figures \ref{fig:recruitment_annual_all}, \ref{fig:recruitment_annual_regions}, \ref{fig:spawnpot_rec_biomass_panel}).\\[-4ex]
+  \item Corrected y-axis labels on Majuro and Kobe plots, adding the subscript `recent' (\autoref{fig:majuro_kobe}).
+\end{itemize}
+
+\vspace{2ex}
+
+\textbf{Revision 1}
+
+This is a revision of the first complete version which was labelled 1.03. This revision of the report adds:
+
+\begin{itemize}
+  \item Corrected proportion-by-source-region plot (\autoref{fig:proportions_biomass_by_source_fmult0}).\\[-4ex]
+  \item Corrected Majuro and Kobe plots (\autoref{fig:majuro_kobe}).\\[-4ex]
+  \item New dynamic MSY plot (\autoref{fig:dynamic_msy}).
+\end{itemize}
+
+\newpage
+\newpage
+
+\tableofcontents
+
+\newpage
+\clearpage
+\newpage
+
+\input{YFT2023ExecSummary}
+\input{YFT2023Intro}
+\input{YFT2023DataCompilation}
+\input{YFT2023ModelDescription}
+\input{YFT2023ModelRuns}
+\input{YFT2023Results}
+\input{YFT2023StockAssessmentResults}
+\input{YFT2023Discussion}
+\input{YFT2023Tables}
+\input{YFT2023Figures}
+\input{YFT2023Appendices}
+
+\newpage
+\clearpage
+\newpage
+
+\addcontentsline{toc}{section}{References}  % References without section number
+\bibliographystyle{apalike}
+\bibliography{ofp-sam-biblio/ofp-sam-biblio}
+
+\clearpage
+\newpage
+
+\end{document}
