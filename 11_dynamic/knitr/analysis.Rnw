@@ -1,0 +1,29 @@
+\documentclass{article}
+\begin{document}
+
+\title{Yellowfin CPUE Trend}
+\author{Arni Magnusson}
+\date{14 March 2023}
+\maketitle
+
+We examine the trend by fitting a loess smoother.
+
+<<loess, fig.width=5, fig.height=4, fig.align="center">>=
+cpue <- read.csv("../data/cpue.csv")
+plot(cpue, ylim=c(0, max(1.05*cpue$Index)), col="goldenrod",
+     main="YFT single region", xlab="Year", ylab="CPUE index")
+fm <- loess(Index~Time, cpue, span=0.5)
+lines(fm$x, fm$fit, lwd=2)
+@
+
+<<averages>>=
+early <- mean(head(cpue$Index, 20))
+recent <- mean(tail(cpue$Index, 20))
+level <- recent / early
+@
+
+The average CPUE values from the earliest five years is \Sexpr{round(early, 1)}
+while the average from the most recent five years is \Sexpr{round(recent, 1)},
+around \Sexpr{paste0(round(100*level), "\\%")} of the early years.
+
+\end{document}

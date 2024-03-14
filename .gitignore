@@ -1,6 +1,8 @@
 *.aux
 *.bbl
 *.blg
+*.fdb_latexmk
+*.fls
 *.lof
 *.log
 *.lot
@@ -10,3 +12,5 @@
 *.snm
 *.synctex.gz
 *.toc
+
+*/knitr/*.tex
