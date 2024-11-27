@@ -24,6 +24,6 @@ level <- recent / early
 
 The average CPUE values from the earliest five years is \Sexpr{round(early, 1)}
 while the average from the most recent five years is \Sexpr{round(recent, 1)},
-around \Sexpr{paste0(round(100*level), "\\%")} of the early years.
+around \Sexpr{paste0(round(100*level), "\\\\%")} of the early years.
 
 \end{document}
